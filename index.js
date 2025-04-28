@@ -19,6 +19,9 @@ const myLibrary = [];
 
 addBookToLibrary("Defending Jacob", "William Landay", 464 ,"Drama", 2012, false)
 addBookToLibrary("To Kill a Mockingbird", "Harper Lee", 281 ,"Classic Fiction", 1960, true)
+
+
+
 //Display the stuff on the page.
 myLibrary.map(displayBooks)
 
