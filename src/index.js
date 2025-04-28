@@ -13,6 +13,11 @@
 
 const myLibrary = [];
 
+addBookToLibrary("Defending Jacob", "William Landay", 464 ,"Drama", 2012, false)
+addBookToLibrary("To Kill a Mockingbird", "Harper Lee", 281 ,"Classic Fiction", 1960, true)
+//Display the stuff on the page.
+myLibrary.map(displayBooks)
+
 function addBookToLibrary(title, author, pages,genre, year, read) {
   const book = new Book(title, author,pages, genre,year,read)
 
@@ -21,8 +26,7 @@ function addBookToLibrary(title, author, pages,genre, year, read) {
   console.log(myLibrary)
 }
 
-addBookToLibrary("Defending Jacob", "William Landay", 464 ,"Drama", 2012, false)
-addBookToLibrary("To Kill a Mockingbird", "Harper Lee", 281 ,"Classic Fiction", 1960, true)
+
 
 
 
@@ -123,47 +127,6 @@ function addNewBook(){
   //Making the form visable
   newBookModal.style.display = 'flex'
 
-  //Grabbing the inputs
-  let form = document.querySelector("#newBookForm")
-
-  form.addEventListener("submit",(e) =>{
-    e.preventDefault(); //Stops page from refreashing
-    console.log("Form submitted!");
-
-    const formData = new FormData(form) 
-
-    let bookTitle = formData.get("title")
-    let bookAuthor = formData.get("author")
-    let bookPages = formData.get("pages")
-    let bookGenre = formData.get("genre")
-    let bookAYear = formData.get("year")
-    let bookRead = formData.get("read")
-    if(bookRead == null ){
-      bookRead = false
-    }else{
-      bookRead = true
-    }
-
-    //Adding the new data into the array.
-
-    addBookToLibrary(bookTitle,bookAuthor, bookPages,bookGenre,bookAYear, bookRead)
-    console.log(bookTitle, bookAuthor, bookPages, bookGenre, bookAYear, bookRead);
-
-    // Redisplay the books onto the page.
-    let display = document.querySelector(".library")
-    display.innerHTML = ""
-    myLibrary.map(displayBooks)
-
-    newBookModal.style.display = 'none'
-    
-    form.reset()
-  } )
-
-  
-
-  
-  
-  console.log(myLibrary)
   //Event listeners for closing the menu
   let cancelButton = document.querySelector(".btn-cancel")
   let closeBtn = document.querySelector(".close-btn")
@@ -177,13 +140,56 @@ function addNewBook(){
   })
 }
 
-//Display the stuff on the page.
-myLibrary.map(displayBooks)
+
 let newBookModal = document.querySelector("#newBookModal")
 //EVENT LISTENERS
 
 //Add new book
 let addBookButton = document.querySelector("#newBookBtn")
 addBookButton.addEventListener("click",addNewBook)
+
+//********************************** */
+
+//Grabbing the inputs from the forum
+let form = document.querySelector("#newBookForm")
+
+form.addEventListener("submit",(e) =>{
+  e.preventDefault(); //Stops page from refreashing
+  console.log("Form submitted!");
+
+  const formData = new FormData(form) 
+
+  let bookTitle = formData.get("title")
+  let bookAuthor = formData.get("author")
+  let bookPages = formData.get("pages")
+  let bookGenre = formData.get("genre")
+  let bookAYear = formData.get("year")
+  let bookRead = formData.get("read")
+  if(bookRead == null ){
+    bookRead = false
+  }else{
+    bookRead = true
+  }
+
+  if (!bookTitle || !bookAuthor || !bookPages || !bookGenre || !bookAYear) {
+    alert("Please fill out all fields.");
+    return;
+  }
+
+  //Adding the new data into the array.
+
+  addBookToLibrary(bookTitle,bookAuthor, bookPages,bookGenre,bookAYear, bookRead)
+  console.log(bookTitle, bookAuthor, bookPages, bookGenre, bookAYear, bookRead);
+
+  // Re display the books onto the page.
+  let display = document.querySelector(".library")
+  display.innerHTML = ""
+  myLibrary.map(displayBooks)
+
+
+  form.reset()  
+  newBookModal.style.display = 'none'
+} )
+
 
 
