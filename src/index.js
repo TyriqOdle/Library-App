@@ -10,7 +10,11 @@
     this.year = year
     this.read = read
   }
-
+  
+  Book.prototype.toggleRead = function() {
+    this.read = !this.read;
+  };
+  
 const myLibrary = [];
 
 addBookToLibrary("Defending Jacob", "William Landay", 464 ,"Drama", 2012, false)
@@ -93,10 +97,43 @@ function displayBooks(book){
     let bookActions = document.createElement("div")
     bookActions.setAttribute("class", "book-actions")
     let toggleReadBtn = document.createElement("button")
-    toggleReadBtn.textContent = "Mark as Read"
+    toggleReadBtn.setAttribute("data-id", book.id);
+    toggleReadBtn.textContent = book.read ? "Mark as Unread" : "Mark as Read"
     toggleReadBtn.setAttribute("class", "btn-toggle-read")
 
+    //Event Listener for the Toggle Button.
+    toggleReadBtn.setAttribute("data-id", book.id);
+
+    toggleReadBtn.addEventListener("click", (e) => {
+      const bookId = e.target.dataset.id
+      const book = myLibrary.find((b) => b.id === bookId)
+      if (book) {
+        book.toggleRead();
+        updateLibrary(); 
+      }
+    });
+
+    //Delete Button
+    let delBtn = document.createElement("button")
+    delBtn.setAttribute("class", "btn-delete")
+    delBtn.textContent = "Delete"
+    delBtn.setAttribute("data-id", book.id)
+
+    //Delete Button Event Listener
+    delBtn.addEventListener("click", (e) =>{
+      const bookId = e.target.dataset.id
+      const book = myLibrary.find((b) => b.id === bookId)
+
+      let index = myLibrary.indexOf(book)
+      myLibrary.splice(index,1)
+
+      updateLibrary()
+    })
+
+
+  
     bookActions.appendChild(toggleReadBtn)
+    bookActions.appendChild(delBtn)
 
     //Assigning Values
     bookTitle.textContent = book.title
@@ -121,6 +158,14 @@ function displayBooks(book){
 
     //Displaying on the Page
     display.appendChild(bookCard)
+}
+
+function updateLibrary(){
+  const display = document.querySelector(".library");
+  display.innerHTML = ""; // Clear existing cards
+  myLibrary.forEach((book) => {
+    displayBooks(book); // Re-add each book to the page
+  });
 }
 
 function addNewBook(){
@@ -182,14 +227,15 @@ form.addEventListener("submit",(e) =>{
   console.log(bookTitle, bookAuthor, bookPages, bookGenre, bookAYear, bookRead);
 
   // Re display the books onto the page.
-  let display = document.querySelector(".library")
-  display.innerHTML = ""
-  myLibrary.map(displayBooks)
+  updateLibrary()
 
 
   form.reset()  
   newBookModal.style.display = 'none'
 } )
+
+
+
 
 
 
