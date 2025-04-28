@@ -119,5 +119,71 @@ function displayBooks(book){
     display.appendChild(bookCard)
 }
 
-//Display the stuff on the screen.
+function addNewBook(){
+  //Making the form visable
+  newBookModal.style.display = 'flex'
+
+  //Grabbing the inputs
+  let form = document.querySelector("#newBookForm")
+
+  form.addEventListener("submit",(e) =>{
+    e.preventDefault(); //Stops page from refreashing
+    console.log("Form submitted!");
+
+    const formData = new FormData(form) 
+
+    let bookTitle = formData.get("title")
+    let bookAuthor = formData.get("author")
+    let bookPages = formData.get("pages")
+    let bookGenre = formData.get("genre")
+    let bookAYear = formData.get("year")
+    let bookRead = formData.get("read")
+    if(bookRead == null ){
+      bookRead = false
+    }else{
+      bookRead = true
+    }
+
+    //Adding the new data into the array.
+
+    addBookToLibrary(bookTitle,bookAuthor, bookPages,bookGenre,bookAYear, bookRead)
+    console.log(bookTitle, bookAuthor, bookPages, bookGenre, bookAYear, bookRead);
+
+    // Redisplay the books onto the page.
+    let display = document.querySelector(".library")
+    display.innerHTML = ""
+    myLibrary.map(displayBooks)
+
+    newBookModal.style.display = 'none'
+    
+    form.reset()
+  } )
+
+  
+
+  
+  
+  console.log(myLibrary)
+  //Event listeners for closing the menu
+  let cancelButton = document.querySelector(".btn-cancel")
+  let closeBtn = document.querySelector(".close-btn")
+
+  closeBtn.addEventListener("click",() =>{
+    newBookModal.style.display = 'none'
+    })
+
+  cancelButton.addEventListener("click",() =>{
+    newBookModal.style.display = 'none'
+  })
+}
+
+//Display the stuff on the page.
 myLibrary.map(displayBooks)
+let newBookModal = document.querySelector("#newBookModal")
+//EVENT LISTENERS
+
+//Add new book
+let addBookButton = document.querySelector("#newBookBtn")
+addBookButton.addEventListener("click",addNewBook)
+
+
