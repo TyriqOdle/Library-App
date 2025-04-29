@@ -51,6 +51,10 @@ function displayBooks(book){
     bookAuthor.setAttribute("class","book-author")
     let readStatus = document.createElement("div")
     readStatus.setAttribute("class","read-status")
+    if (!book.read) {
+      readStatus.classList.add("not-read"); 
+    }
+
     let bookBody = document.createElement("div")
     bookBody.setAttribute("class","book-card-body")
 
@@ -141,7 +145,8 @@ function displayBooks(book){
     //Assigning Values
     bookTitle.textContent = book.title
     bookAuthor.textContent = book.author
-    readStatus.textContent = book.read
+    readStatus.textContent = readStatus.textContent = book.read ? "Read" : "Not Read"
+    
 
     pagesValue.textContent = book.pages
     genreValue.textContent = book.genre

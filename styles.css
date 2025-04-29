@@ -167,7 +167,7 @@ header {
     position: absolute;
     top: 0;
     right: 0;
-    background-color: var(--accent-color);
+    background-color: var(--secondary-color);
     color: var(--dark-color);
     padding: 0.25rem 0.75rem;
     font-size: 0.8rem;
